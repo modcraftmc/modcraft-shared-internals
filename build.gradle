@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.github.johnrengelman:shadow:8.1.1'
+    }
+}
+
+
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.+'
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group = 'fr.modcraftmc'
+version = '1.0-SNAPSHOT'
+
+configurations {
+    // Create the library configuration, where our non-mod libraries will be added to
+    library
+    // Any dependency in the library configuration will also be added to the implementation configuration
+    implementation.extendsFrom library
+
+    shade
+    library.extendsFrom shade
+}
+
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    shade 'com.rabbitmq:amqp-client:5.16.0'
+    shade 'org.mongodb:mongodb-driver-sync:4.9.0'
+
+}
+
+shadowJar {
+    configurations = [project.configurations.shade]
+    //relocate 'org.mongodb.mongodb-driver-sync', 'shaded.mongodb-driver-sync'
+    //relocate 'com.moandjiezana.toml', 'shaded.toml'
+    dependencies {
+        exclude(dependency('org.slf4j:slf4j-api'))
+        exclude(dependency('com.google.code.gson:gson'))
+    }
+
+    archiveBaseName = "modcraft-shared-internals"
+    archiveVersion = "2.0"
+}
+
+jar.finalizedBy('shadowJar')
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'fr.modcraftmc'
+            artifactId = 'modcraft-shared-internals'
+            version = '2.0'
+            from components.java
+        }
+    }
+}
