@@ -38,6 +38,7 @@ repositories {
 dependencies {
     shade 'com.rabbitmq:amqp-client:5.16.0'
     shade 'org.mongodb:mongodb-driver-sync:4.9.0'
+    shade 'com.moandjiezana.toml:toml4j:0.7.2'
 
 }
 
@@ -51,18 +52,18 @@ shadowJar {
     }
 
     archiveBaseName = "modcraft-shared-internals"
-    archiveVersion = "2.0"
+    archiveVersion = "2.4"
 }
 
 jar.finalizedBy('shadowJar')
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
             groupId = 'fr.modcraftmc'
             artifactId = 'modcraft-shared-internals'
-            version = '2.0'
-            from components.java
+            version '2.4'
         }
     }
 }
