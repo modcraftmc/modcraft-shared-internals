@@ -44,15 +44,15 @@ dependencies {
 
 shadowJar {
     configurations = [project.configurations.shade]
-    //relocate 'org.mongodb.mongodb-driver-sync', 'shaded.mongodb-driver-sync'
-    //relocate 'com.moandjiezana.toml', 'shaded.toml'
+    relocate 'org.mongodb.mongodb-driver-sync', 'shaded.mongodb-driver-sync'
+    relocate 'com.moandjiezana.toml', 'shaded.toml'
     dependencies {
         exclude(dependency('org.slf4j:slf4j-api'))
         exclude(dependency('com.google.code.gson:gson'))
     }
 
     archiveBaseName = "modcraft-shared-internals"
-    archiveVersion = "2.4"
+    archiveVersion = "2.6"
 }
 
 jar.finalizedBy('shadowJar')
@@ -63,7 +63,7 @@ publishing {
             project.shadow.component(publication)
             groupId = 'fr.modcraftmc'
             artifactId = 'modcraft-shared-internals'
-            version '2.4'
+            version '2.6'
         }
     }
 }
