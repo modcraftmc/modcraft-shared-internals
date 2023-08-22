@@ -1,1 +1,1 @@
-# modcraft-shared-internals
+MODED TO https://github.com/modcraftmc/CrossServerCore
