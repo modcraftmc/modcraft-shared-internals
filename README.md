@@ -1,0 +1,1 @@
+# modcraft-shared-internals
